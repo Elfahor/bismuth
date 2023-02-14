@@ -8,42 +8,46 @@
 #include <KConfigWatcher>
 #include <KDecoration2/Decoration>
 
-namespace Bismuth
-{
-class Decoration : public KDecoration2::Decoration
-{
-    Q_OBJECT
+namespace Bismuth {
+class Decoration : public KDecoration2::Decoration {
+  Q_OBJECT
 public:
-    explicit Decoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
+  explicit Decoration(QObject *parent = nullptr,
+                      const QVariantList &args = QVariantList());
 
-    /**
-     * Provides the rendering.
-     *
-     * The painter is set up to paint on an internal QPaintDevice. The painting is implicitly double buffered.
-     */
-    void paint(QPainter *painter, const QRect &repaintRegion) override;
+  /**
+   * Provides the rendering.
+   *
+   * The painter is set up to paint on an internal QPaintDevice. The painting is
+   * implicitly double buffered.
+   */
+  void paint(QPainter *painter, const QRect &repaintRegion) override;
 
 public Q_SLOTS:
-    /**
-     * This method gets invoked once the Decoration is created and completely setup.
-     *
-     * All initialization must be performed in this method instead of the constructor.
-     */
-    void init() override;
+  /**
+   * This method gets invoked once the Decoration is created and completely
+   * setup.
+   *
+   * All initialization must be performed in this method instead of the
+   * constructor.
+   */
+  void init() override;
 
 private:
-    void paintBorders(QPainter &painter);
+  void paintBorders(QPainter &painter);
 
-    void updateColors();
-    void setBorderSizes();
-    void connectEvents();
+  void updateColors();
+  void setBorderSizes();
+  void setCornerRadius();
+  void connectEvents();
 
-    int borderSize() const;
+  int borderSize() const;
 
-    QColor m_activeColor;
-    QColor m_inactiveColor;
+  QColor m_activeColor;
+  QColor m_inactiveColor;
+  float m_cornerRadius;
 
-    KConfigWatcher::Ptr m_kdeglobalsWatcher;
+  KConfigWatcher::Ptr m_kdeglobalsWatcher;
 };
 
-}
+} // namespace Bismuth
